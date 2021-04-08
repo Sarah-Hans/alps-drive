@@ -15,7 +15,7 @@ const server = http.createServer((req, res) => {
 
 //dire à l'application Express sur quel port elle doit tourner
 app.set('port', process.env.PORT || 3000);
-// paramètre app, car c'est une fonction quiva recevoir la requête et la réponse
+// paramètre app, car c'est une fonction qui va recevoir la requête et la réponse
 const server = http.createServer(app);
 
 
