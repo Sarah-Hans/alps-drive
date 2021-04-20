@@ -38,13 +38,34 @@ function listFolder() {
     return promiseTransformed;
 }
 
-function contentFolder() {
-    
+//fonction qui vérifie si c'est un fichier
+function isFile(name) {
+    const absolutePath = path.join(ALPS_DRIVE_ROOT, name);
+    //fs.stat permet d'extraire des informations à propos d'un fichier ou dossier comme isFile() ou isDirectory()
+    const promise = fs.stat(absolutePath).then(result => {
+        console.log('isFile', result);
+        return result.isFile(); // renvoie vrai ou faux
+    });
+    return promise; // renvoie vrai ou faux
 }
+
+//fonction qui affiche le contenu d'un fichier
+function seeContent (name) {
+    const absolutePath = path.join(ALPS_DRIVE_ROOT, name);
+    const promise = fs.readFile(absolutePath, 'utf-8').then((data) => {
+        console.log(data);
+        return data;
+    }).catch(() => {
+        console.log("erreur")
+    })
+    return promise;
+}
+
 
 //export du module 
 module.exports = {
     createRootFolder: createRootFolder,
     listFolder: listFolder,
-    contentFolder: contentFolder,
+    isFile: isFile,
+    seeContent: seeContent,
 };
