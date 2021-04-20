@@ -61,6 +61,26 @@ function seeContent (name) {
     return promise;
 }
 
+function seeFolder(name) {
+    const absolutePath = path.join(ALPS_DRIVE_ROOT, name);
+    const promise = fs.readdir(absolutePath, {withFileTypes: true})
+    const promiseTransformed = promise.then((results) => {
+        const allFiles = []
+        results.forEach((result) => {
+            allFiles.push({
+                name: result.name,
+                isFolder: result.isDirectory(),
+            })
+        })
+        console.log(allFiles)
+        return allFiles
+    })
+    .catch(() => {
+        console.log('Erreur')
+    })
+    return promiseTransformed
+}
+
 
 //export du module 
 module.exports = {
@@ -68,4 +88,5 @@ module.exports = {
     listFolder: listFolder,
     isFile: isFile,
     seeContent: seeContent,
+    seeFolder: seeFolder,
 };

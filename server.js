@@ -20,8 +20,7 @@ app.get('/api/drive', (req, res) => {
       })
 })
 
-app.get('/api/drive/:name'), (req, res) => {
-  console.log('ok')
+app.get('/api/drive/:name', (req, res) => {
   const name = req.params.name;
   const promesse = drive.isFile(name);
   promesse.then((isFile) => {
@@ -31,20 +30,25 @@ app.get('/api/drive/:name'), (req, res) => {
       //on affiche le contenu du fichier
       const fileContent = drive.seeContent(name);
       fileContent.then((result) => {
-        console.log(result)
-        res.sendFile(name)
+        res.send(result)
       }).catch(() => {
         res.status(404).send('Contenu introuvable')
       })
     } else {
       //dossier
       console.log('C\'est un dossier');
+      const promesse = drive.seeFolder(name)
+      promesse.then((result) => {
+        res.send(result)
+      }).catch(() => {
+        res.statut(404).send('Contenu introuvable')
+      })
       
     }
   })
   
 
-}
+})
 
 
 
