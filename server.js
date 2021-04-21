@@ -43,11 +43,28 @@ app.get('/api/drive/:name', (req, res) => {
       }).catch(() => {
         res.statut(404).send('Contenu introuvable')
       })
-      
     }
   })
-  
+})
 
+app.post('/api/drive', (req, res) => {
+  console.log('ok')
+  const name = req.query.name;
+  const regex = /^[a-zA-Z0-9-_]*$/;
+  const test = regex.test(name)
+  console.log(test)
+  if (test === true) {
+    console.log('Ok bon nom de dossier')
+    const promesse = drive.createFolder(name);
+    promesse.then(result => {
+      res.status(201).send(result)
+    }).catch(() => {
+      res.send('Contenu introuvable')
+    })
+  } else {
+    console.log('Utilisez des caractères alphanumériques')
+    res.sendStatus(400)
+  } 
 })
 
 

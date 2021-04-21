@@ -53,7 +53,6 @@ function isFile(name) {
 function seeContent (name) {
     const absolutePath = path.join(ALPS_DRIVE_ROOT, name);
     const promise = fs.readFile(absolutePath, 'utf-8').then((data) => {
-        console.log(data);
         return data;
     }).catch(() => {
         console.log("erreur")
@@ -61,6 +60,7 @@ function seeContent (name) {
     return promise;
 }
 
+//fonction qui affiche le contenu du sous dossier
 function seeFolder(name) {
     const absolutePath = path.join(ALPS_DRIVE_ROOT, name);
     const promise = fs.readdir(absolutePath, {withFileTypes: true})
@@ -72,13 +72,24 @@ function seeFolder(name) {
                 isFolder: result.isDirectory(),
             })
         })
-        console.log(allFiles)
         return allFiles
     })
     .catch(() => {
         console.log('Erreur')
     })
     return promiseTransformed
+}
+
+//fonction pour créer un dossier
+function createFolder(name) {  
+    const folderPath = path.join(ALPS_DRIVE_ROOT, name)
+    console.log(folderPath)
+    const promise = fs.mkdir(folderPath).then((result) => {
+        console.log('Directory created successfully!');
+        return result;
+    })
+    return promise;   
+    
 }
 
 
@@ -89,4 +100,5 @@ module.exports = {
     isFile: isFile,
     seeContent: seeContent,
     seeFolder: seeFolder,
+    createFolder: createFolder,
 };
