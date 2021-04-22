@@ -92,6 +92,18 @@ function createFolder(name) {
     
 }
 
+//fonction pour créer un dossier dans un dossier
+function createFolderInFolder(folder, name) {  
+    const folderPath = path.join(ALPS_DRIVE_ROOT, folder, name)
+    console.log(folderPath)
+    const promise = fs.mkdir(folderPath).then((result) => {
+        console.log('Directory created successfully!');
+        return result;
+    })
+    return promise;   
+    
+}
+
 
 //export du module 
 module.exports = {
@@ -101,4 +113,5 @@ module.exports = {
     seeContent: seeContent,
     seeFolder: seeFolder,
     createFolder: createFolder,
+    createFolderInFolder: createFolderInFolder,
 };
