@@ -104,6 +104,31 @@ function createFolderInFolder(folder, name) {
     
 }
 
+function deleteElement(name) {
+    const absolutePath = path.join(ALPS_DRIVE_ROOT, name)
+    const promesse = isFile(name);
+     return promesse.then((isFile) => {
+        if (isFile) {
+            // C'est un fichier
+            console.log('Fichier')
+            const deletefile = fs.unlink(absolutePath).then((result) => {
+                console.log('File deleted')
+                return result
+            })
+            return deletefile
+        } else {
+            //C'est un dossier
+            console.log('Dossier')
+            const deletefolder = fs.rmdir(absolutePath).then((result) => {
+                console.log('Folder deleted')
+                return result
+            })
+            return deletefolder
+        }
+    })
+    
+}
+
 
 //export du module 
 module.exports = {
@@ -114,4 +139,5 @@ module.exports = {
     seeFolder: seeFolder,
     createFolder: createFolder,
     createFolderInFolder: createFolderInFolder,
+    deleteElement: deleteElement,
 };

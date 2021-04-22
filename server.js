@@ -87,6 +87,15 @@ app.post('/api/drive/:folder', (req, res) => {
   }
 })
 
+app.delete('/api/drive/:name', (req, res) => {
+  const name = req.params.name
+  const promesse = drive.deleteElement(name)
+  promesse.then(result => {
+    res.status(201).send(result)
+  }).catch(() => {
+    res.sendStatus(400)
+  })
+})
 
 
 //exporter l'application pour pouvoir l'utiliser dans les autres fichiers
