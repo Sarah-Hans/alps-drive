@@ -97,6 +97,21 @@ app.delete('/api/drive/:name', (req, res) => {
   })
 })
 
+app.delete('/api/drive/:folder/:name', (req, res) => {
+  console.log('Ok delete')
+  const folder = req.params.folder
+  const name = req.params.name
+  console.log('Folder : '+ folder)
+  console.log('Name : ' + name)
+  const promesse = drive.deleteElementInFolder(folder, name)
+  promesse.then(result => {
+    res.status(201).send(result)
+  }).catch(() => {
+    console.log('Erreur pffffff')
+    res.sendStatus(400)
+  })
+})
+
 
 //exporter l'application pour pouvoir l'utiliser dans les autres fichiers
 module.exports = app;

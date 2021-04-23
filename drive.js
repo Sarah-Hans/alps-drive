@@ -104,6 +104,7 @@ function createFolderInFolder(folder, name) {
     
 }
 
+//fonction qui supprime un élément (fichier ou dossier)
 function deleteElement(name) {
     const absolutePath = path.join(ALPS_DRIVE_ROOT, name)
     const promesse = isFile(name);
@@ -126,7 +127,16 @@ function deleteElement(name) {
             return deletefolder
         }
     })
-    
+}
+
+//fonction qui supprime un fichier ou un dossier dans un sous dossier
+function deleteElementInFolder(folder, name) {
+    const absolutePath = path.join(ALPS_DRIVE_ROOT, folder, name)
+    const deletefileorfolder = fs.rm(absolutePath, {recursive: true}).then(result => {
+        console.log('Deleted')
+        return result
+    })
+    return deletefileorfolder
 }
 
 
@@ -140,4 +150,5 @@ module.exports = {
     createFolder: createFolder,
     createFolderInFolder: createFolderInFolder,
     deleteElement: deleteElement,
+    deleteElementInFolder: deleteElementInFolder,
 };
