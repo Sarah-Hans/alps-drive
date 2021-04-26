@@ -3,8 +3,15 @@ const express = require('express');
 
 const drive = require('./drive');
 
+const bb = require('express-busboy')
+
 //création de l'application
 const app = express();
+
+bb.extend(app, {
+  upload: true,
+  path: '/var/folders/yv/ywhyn71d05g2lz7qv3j74b2c0000gn/T/alpsdrive',
+});
 
 //va chercher à afficher des pages static se trouvant dans le dossier frontend
 app.use(express.static('frontend'));
@@ -108,6 +115,18 @@ app.delete('/api/drive/:folder/:name', (req, res) => {
     res.status(201).send(result)
   }).catch(() => {
     console.log('Erreur pffffff')
+    res.sendStatus(400)
+  })
+})
+
+app.put('/api/drive', (req, res) => {
+  console.log(req.files)
+  const filepath = req.files.file.file
+  const filename = req.files.file.filename
+  const promesse = drive.uploadFile(filepath, filename)
+  promesse.then(result => {
+    res.status(201).send(result)
+  }).catch(() => {
     res.sendStatus(400)
   })
 })

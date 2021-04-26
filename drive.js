@@ -120,7 +120,7 @@ function deleteElement(name) {
         } else {
             //C'est un dossier
             console.log('Dossier')
-            const deletefolder = fs.rmdir(absolutePath).then((result) => {
+            const deletefolder = fs.rmdir(absolutePath, {recursive: true}).then((result) => {
                 console.log('Folder deleted')
                 return result
             })
@@ -139,6 +139,14 @@ function deleteElementInFolder(folder, name) {
     return deletefileorfolder
 }
 
+function uploadFile(filepath, filename) {
+    const fpath = path.join(ALPS_DRIVE_ROOT, filename)
+    const promise = fs.copyFile(filepath, fpath).then(result => {
+        console.log('File uploaded')
+        return result
+    })
+    return promise
+}
 
 //export du module 
 module.exports = {
@@ -151,4 +159,5 @@ module.exports = {
     createFolderInFolder: createFolderInFolder,
     deleteElement: deleteElement,
     deleteElementInFolder: deleteElementInFolder,
+    uploadFile: uploadFile,
 };
